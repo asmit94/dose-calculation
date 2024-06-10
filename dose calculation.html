@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dose Calculation</title>
+    <script>
+        function calculateDose() {
+            // Get input values
+            let mcgPerKgPerMin = parseFloat(document.getElementById("mcgPerKgPerMin").value);
+            let bodyWeight = parseFloat(document.getElementById("bodyWeight").value);
+            let availableDose = parseFloat(document.getElementById("availableDose").value);
+            let totalVolume = parseFloat(document.getElementById("totalVolume").value);
+
+            // Convert available dose from mg to mcg
+            availableDose = availableDose * 1000;
+
+            // Calculate the dose in mcg/hr
+            let doseMcgPerHr = mcgPerKgPerMin * bodyWeight * 60;
+
+            // Calculate ml/hr
+            let mlPerHr = (doseMcgPerHr * totalVolume) / availableDose;
+
+            // Display the result
+            document.getElementById("result").innerText = "The infusion rate is " + mlPerHr.toFixed(2) + " ml/hr.";
+        }
+    </script>
+</head>
+<body>
+    <h1>Dose Calculation from MCG/kg/min to ml/HR</h1>
+    <form onsubmit="calculateDose(); return false;">
+        <label for="mcgPerKgPerMin">MCG/kg/min:</label>
+        <input type="number" id="mcgPerKgPerMin" step="0.01" required><br><br>
+
+        <label for="bodyWeight">Body Weight (kg):</label>
+        <input type="number" id="bodyWeight" step="0.1" required><br><br>
+
+        <label for="availableDose">Available Dose (mg):</label>
+        <input type="number" id="availableDose" step="0.01" required><br><br>
+
+        <label for="totalVolume">Total Volume of the Syringe (ml):</label>
+        <input type="number" id="totalVolume" step="0.1" required><br><br>
+
+        <input type="submit" value="Calculate">
+    </form>
+    <h2 id="result"></h2>
+</body>
+</html>
